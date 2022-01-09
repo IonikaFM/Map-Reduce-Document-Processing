@@ -1,0 +1,43 @@
+==========================Grosu Ioana Alexandra, 335CC=========================
+
+    For this homework I used two executor services (both having maximum workers
+number equal with the first argument), one for the mapping part of the solution
+and one for the reducing part. I started by reading all the given files one by
+one, in meanwhile generating mapping tasks for workers in the following way :
+I saved the current file content in a StringBuilder and I am generating a
+number of tasks = ceil(file length / fragment dimension). To generate them I
+used two delimiters of the current fragment (start, end) and the file content
+saved earlier. In this same iteration I am creating inputs for the next type of
+tasks : Reduce. To do that I saved the name of the current file and the results
+of all the mapping tasks of this same file in an instance of the ReduceInput
+class that I created.
+
+    Map task : It creates a dictionary that contains a map (between the
+dimensions of the words and their number of apparitions) and a list with the
+words with maximum length. Firstly, it checks (in both sides) if the fragment
+is dividing any word and if it does it will increment the delimiters until it
+doesn't anymore ore until one of the delimiters is about to go out of bound.
+Finally, it's splitting the words of the fragment by the given separators and
+it's adding them all in the map (and in the list with words with maximum length
+if it fits the description). The returned value is the dictionary created.
+
+    After finishing all the mapping tasks of all the files read we can iterate
+through the list of ReduceInput objects to create a number of reducing tasks
+equal with the number of files that we had to read. Again, I had to save all
+these results so I used a list of instances of the Output class that I created.
+
+    Reduce task : It creates the output of the final document which contains
+the document name, it's rang, the maximum length a word from this file has and
+the number of this kind of words. First of all, it's going through all the
+dictionaries given with the input and it creates a final dictionary that
+combines them all. In order to do that it iterates through all the keys and
+words and adds them to the final map and list of words, using some methods
+created to make it easier. After the final dictionary was created the program
+goes through all the keys in order to calculate the file's rang. The returned
+value is the Output instance described above.
+
+    After finishing all the reducing tasks and saving their outputs in a list
+the program is sorting this list and prints it in the output file given as
+parameter.
+
+===================================Tema 2 APD==================================
